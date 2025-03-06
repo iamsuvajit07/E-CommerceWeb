@@ -283,6 +283,55 @@ a {
 
 
 
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background: white;
+}
+
+.cart-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.cart-details {
+  flex: 1;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counter button {
+  padding: 5px 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.remove-btn {
+  background: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+
+
+
+
+
+
 
 
 @media only screen and (max-width: 768px) {
