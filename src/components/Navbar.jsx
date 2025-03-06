@@ -1,9 +1,8 @@
-// import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./icons/logo@2x-free-img-1.png";
 import cartIcon from "./icons/parcel.png";
 
-const Navbar = ({ cartCount }) => { // ✅ Accept cartCount
+const Navbar = ({ cartCount }) => {
   return (
     <div className="container">
       <header className="header">
@@ -21,6 +20,7 @@ const Navbar = ({ cartCount }) => { // ✅ Accept cartCount
                 </li>
               ))}
             </ul>
+            {/* Cart Logo */}
             <Link to="/cart" id="card-a">
               <img id="cart-img" src={cartIcon} alt="Cart Icon" />
               <span id="cart-count">{cartCount}</span> {/* ✅ Display dynamic cart count */}

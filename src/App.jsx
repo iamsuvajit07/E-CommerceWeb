@@ -7,15 +7,17 @@ import Cart from "./components/Cart";
 import Store from "./components/Store";
 
 function App() {  
-  const [cartCount, setCartCount] = useState(0); 
+  const [cart, setCart] = useState([]); 
 
-  return (
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+  return ( 
     <>
       <Navbar cartCount={cartCount} /> 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/store" element={<Store setCartCount={setCartCount} />} /> {/* ✅ Pass setCartCount */}
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/store" element={<Store setCart={setCart} cart={cart} />} /> 
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>} />
       </Routes>
     </>
   );

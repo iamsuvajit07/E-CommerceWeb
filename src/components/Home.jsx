@@ -4,7 +4,7 @@ import "../index.css";
 const Home = () => {
   return (
     <div className="container-fluid">
-      <div id="bg-image1">
+      <div id="bg-image1"> 
         <section className="container">
           <div id="parent-subdiv">
             <div id="hero1-subdiv1" className="hero1-subdiv">

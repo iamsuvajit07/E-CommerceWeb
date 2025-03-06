@@ -8,7 +8,7 @@ html {
   font-size: 62.5%;
   font-family: "Roboto", sans-serif;
   background: #706e6e;
-}
+} 
 
 body {
   margin: 0;
@@ -277,6 +277,13 @@ a {
   background: #055587;
 }
 
+.loader {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 
 
@@ -325,6 +332,7 @@ a {
   border-radius: 5px;
   margin-left: 10px;
 }
+
 
 
 

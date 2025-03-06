@@ -1,21 +1,38 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Preloader from "./Preloader";
 
-export default function Store({ setCartCount }) { // ✅ Accept setCartCount
+export default function Store({ setCart, cart }) { //  Accept setCartCount
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios
             .get("https://fakestoreapi.com/products")
             .then((response) => setProducts(response.data))
-            .catch((error) => console.error("Error fetching products:", error));
+            .catch((error) => console.error("Error fetching products:", error))
+            .finally(() => setLoading(false));
     }, []);
 
-    const addToCart = () => {
-        setCartCount(prev => prev + 1); // ✅ Increase cart count
-    };
+    if (loading) return <Preloader />;
+    // const addToCart = () => {
+    //     setCartCount(prev => prev + 1); //  Increase cart count
+    // };
 
-    if (products.length === 0) return <p>Loading products...</p>;
+     const addToCart = (product) => {
+    const existingItem = cart.find((item) => item.id === product.id);
+    if (existingItem) {
+      setCart(
+        cart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        )
+      );
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+
+
 
     return (
         <div className="product-container">
@@ -28,7 +45,7 @@ export default function Store({ setCartCount }) { // ✅ Accept setCartCount
                     <p className="product-rating">⭐ {product.rating.rate} ({product.rating.count} reviews)</p>
                     <p className="product-description">{product.description.slice(0, 100)}...</p>
                     <div className="button-div">
-                        <button className="add-to-cart" onClick={addToCart}>Add to Cart</button> {/* ✅ Update count */}
+                        <button className="add-to-cart" onClick={() => addToCart(product)}>Add to Cart</button> {/*  Update count */}
                         <button className="buy-now">Buy Now</button>
                     </div>
                 </div>

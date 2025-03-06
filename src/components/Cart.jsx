@@ -1,83 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export default function Cart() {
-    const [cart, setCart] = useState([
-        {
-            id: 1,
-            title: "John Hardy Women's Legends Naga Gold & Silver Dragon Bracelet",
-            price: 695,
-            image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-            quantity: 1,
-        },
-        {
-            id: 2,
-            title: "Mens Casual Slim Fit",
-            price: 15.99,
-            image: "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
-            quantity: 1,
-        },
-    ]);
-
-    const [cartCount, setCartCount] = useState(0);
-
-    // Update cart count whenever quantity changes
-    useEffect(() => {
-        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-        setCartCount(totalItems);
-    }, [cart]);
-
-    // Function to handle quantity increase
-    const increaseQuantity = (id) => {
-        setCart((prevCart) =>
-            prevCart.map((item) =>
-                item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-            )
-        );
-    };
-
-    // Function to handle quantity decrease
-    const decreaseQuantity = (id) => {
-        setCart(
-            (prevCart) =>
-                prevCart
-                    .map((item) =>
-                        item.id === id && item.quantity > 1
-                            ? { ...item, quantity: item.quantity - 1 }
-                            : item
-                    )
-                    .filter((item) => item.quantity > 0) // Remove items with zero quantity
-        );
-    };
-
-    // Function to remove item from cart
-    const removeFromCart = (id) => {
-        setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-    };
-
-    return (
-        <div>
-            <h2>Cart ({cartCount})</h2>
-            {cart.map((item) => (
-                <div key={item.id} className="cart-item">
-                    <img src={item.image} alt={item.title} className="cart-image" />
-                    <div className="cart-details">
-                        <h3>{item.title}</h3>
-                        <p>${item.price}</p>
-                        <div className="counter">
-                            <button onClick={() => decreaseQuantity(item.id)}>-</button>
-                            <span>{item.quantity}</span>
-                            <button onClick={() => increaseQuantity(item.id)}>+</button>
-                        </div>
-                        <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="remove-btn"
-                        >
-                            Remove From Cart
-                        </button>
-                        <p>Total: ${item.price * item.quantity}</p>
-                    </div>
-                </div>
-            ))}
-        </div>
+export default function Cart({ cart, setCart }) {
+  // ✅ Update Quantity Function
+  const updateQuantity = (id, amount) => {
+    setCart(
+      cart
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity + amount } : item
+        )
+        .filter((item) => item.quantity > 0) // Remove item if quantity is 0
     );
+  };
+
+  // ✅ Calculate Total Price
+  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  return (
+    <div className="cart-container">
+      <h2>Your Cart ({cart.length} items)</h2>
+
+      {cart.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        cart.map((item) => (
+          <div key={item.id} className="cart-item">
+            <img src={item.image} alt={item.title} className="cart-image" />
+            <div className="cart-details">
+              <h3>{item.title}</h3>
+              <p>Price: ${item.price}</p>
+              <p>Category: {item.category}</p>
+              <div className="cart-quantity">
+                <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                <span>{item.quantity}</span>
+                <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+              </div>
+              <p>Total: ${item.price * item.quantity}</p>
+            </div>
+          </div>
+        ))
+      )}
+
+      <h3 className="total-price">Total Price: ${totalPrice.toFixed(2)}</h3>
+    </div>
+  );
 }
