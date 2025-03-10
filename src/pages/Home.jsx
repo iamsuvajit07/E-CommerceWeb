@@ -1,5 +1,6 @@
 import React from "react";
 import "../index.css";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -14,14 +15,14 @@ const Home = () => {
               </div>
               <div id="subdiv1-div2">
                 <div className="hero1-button" id="shopnow-div">
-                  <a className="a-tag" href="#">
+                <Link className="a-tag" to="/cart">
                     Shop Now
-                  </a>
+                </Link>
                 </div>
                 <div className="hero1-button" id="findmore-div">
-                  <a className="a-tag" href="#">
+                <Link className="a-tag" to="/store">
                     Find More
-                  </a>
+                </Link>
                 </div>
               </div>
             </div>
