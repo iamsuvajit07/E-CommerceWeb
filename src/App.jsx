@@ -5,9 +5,6 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Cart from "./pages/Cart";
 import Store from "./pages/Store";
-import MenPage from "./pages/MenPage";
-import WomenPage from "./pages/WomenPage";
-import Accessories from "./pages/Accessories";
 import Account from "./pages/Account";
 import About from "./pages/About";
 import ContactUs from "./pages/ContactUs";
@@ -23,9 +20,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/store" element={<Store setCart={setCart} cart={cart} />} /> 
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>} />
-        <Route path="/men" element={<MenPage />} />
-        <Route path="/women" element={<WomenPage />} />
-        <Route path="/accessories" element={<Accessories />} />
         <Route path="/account" element={<Account />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact-us" element={<ContactUs />} />

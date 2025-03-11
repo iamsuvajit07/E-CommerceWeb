@@ -46,7 +46,7 @@ const Navbar = ({ cartCount }) => {
   }, [isOpen]);
 
   return (
-    <div className="container">
+    <div>
       <header className="header">
         <nav className="navbar">
           {/* Logo */}
@@ -57,7 +57,7 @@ const Navbar = ({ cartCount }) => {
           <div id="parent-nav-div" ref={menuRef}>
             {/* ✅ Navigation Menu */}
             <ul className={`nav-menu ${isOpen ? "active" : ""}`}>
-              {["Home", "Store", "Men", "Women", "Accessories", "Account", "About", "Contact Us"].map((item) => {
+              {["Home", "Store", "Account", "About", "Contact Us"].map((item) => {
                 let path;
                 if (item === "Home") {
                   path = "/"; // Home links to root path

@@ -24,7 +24,7 @@ export default function Cart({ cart, setCart }) {
     <>
       <div className="container">
          <div className="header-cart">
-        <h2>Your Cart ({cart.length} items)</h2>
+         <h2>Your Cart Has ({cart.length} Unique {cart.length > 1 ? "Items" : "Item"})</h2>
         <h3 className="total-price">Total Price: ₹{(totalPrice*100).toFixed(2)}</h3>
       </div>
       
