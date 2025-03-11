@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "/icons/logo@2x-free-img-1.png";
 import cartIcon from "/icons/parcel.png";
 
-const Navbar = ({ cartCount }) => {
+const Navbar = ({ cartCount, isAuthenticated, setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef(null); // Reference for menu container
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   // ✅ Toggle mobile menu
   const toggleMenu = () => {
@@ -20,7 +21,6 @@ const Navbar = ({ cartCount }) => {
       }
     };
 
-    // Listen for clicks or touches anywhere in the document
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("touchstart", handleClickOutside);
 
@@ -45,6 +45,12 @@ const Navbar = ({ cartCount }) => {
     };
   }, [isOpen]);
 
+  // ✅ Logout Handler
+  const handleLogout = () => {
+    setIsAuthenticated(false); // Set login status to false
+    navigate("/"); // Redirect to login page
+  };
+
   return (
     <div>
       <header className="header">
@@ -58,27 +64,33 @@ const Navbar = ({ cartCount }) => {
             {/* ✅ Navigation Menu */}
             <ul className={`nav-menu ${isOpen ? "active" : ""}`}>
               {["Home", "Store", "Account", "About", "Contact Us"].map((item) => {
-                let path;
-                if (item === "Home") {
-                  path = "/"; // Home links to root path
-                } else if (item === "Contact Us") {
-                  path = "/contact-us"; // Contact Us links to /contact
-                } else {
-                  path = `/${item.toLowerCase()}`;
-                }
-                
+                let path = item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "-")}`;
+
                 return (
                   <li className="nav-item" key={item}>
                     <Link
                       to={path}
                       className="nav-link"
-                      onClick={() => setIsOpen(false)} // Close menu on click
+                      onClick={() => setIsOpen(false)}
                     >
                       {item}
                     </Link>
                   </li>
                 );
               })}
+
+              {/* ✅ Login / Logout Button */}
+              <li className="nav-item">
+                {isAuthenticated ? (
+                  <button className="nav-link logout-btn" onClick={handleLogout}>
+                    Logout
+                  </button>
+                ) : (
+                  <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>
+                    Login
+                  </Link>
+                )}
+              </li>
             </ul>
 
             {/* ✅ Cart Icon with Dynamic Count */}

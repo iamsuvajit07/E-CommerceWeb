@@ -272,6 +272,20 @@ a {
   }
 }
 
+.logout-btn {
+  background: none;
+  border: none;
+  /* font-size: 16px; */
+  font-weight: 600;
+  color: #e61111;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logout-btn:hover {
+  color: #922828;
+}
+
 
 /* Store.jsx */
 .product-container {
@@ -282,12 +296,9 @@ a {
 }
 
 .read-more {
-  margin-top: 10px;
-  background-color: rgb(57, 66, 197);
-  color: #ebeaee;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
+  margin-top: 10px; 
+  color: #0056b3;
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -760,6 +771,113 @@ background-color: #706e6e;
 }
 
 
+
+/* LoginPage */
+/* Container */
+/* Auth Container */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.auth-box {
+  width: 350px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.auth-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.auth-button {
+  padding: 10px;
+  margin-top: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.auth-button:hover {
+  background: #0056b3;
+}
+
+/* Toggle Text */
+.toggle-text {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.toggle-button:hover {
+  color: #0056b3;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .auth-box {
+      width: 90%;
+  }
+
+  input {
+      font-size: 14px;
+  }
+
+  .auth-button {
+      font-size: 14px;
+  }
+}
 
 
 

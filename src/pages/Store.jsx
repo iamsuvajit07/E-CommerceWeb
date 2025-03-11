@@ -14,7 +14,7 @@ export default function Store({ setCart, cart }) {
     // ✅ Fetch products from API
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("https://fakestoreapi.com/products");
+            const response = await axios.get("http://localhost:5000/products");
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -132,9 +132,9 @@ export default function Store({ setCart, cart }) {
                                 ? product.description  
                                 : `${product.description.slice(0, 50)}...`} 
                             <br />
-                            <button className="read-more" onClick={() => toggleReadMore(product.id)}>
+                            <a className="read-more" onClick={() => toggleReadMore(product.id)}>
                                 {expanded[product.id] ? "Read Less" : "Read More"}
-                            </button>
+                            </a>
                         </p>
 
                         <div className="button-div">
