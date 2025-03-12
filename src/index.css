@@ -277,14 +277,15 @@ a {
   border: none;
   /* font-size: 16px; */
   font-weight: 600;
-  color: #e61111;
+  color: #922828;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .logout-btn:hover {
-  color: #922828;
+  color: #b81d1d;
 }
+
 
 
 /* Store.jsx */
@@ -773,14 +774,17 @@ background-color: #706e6e;
 
 
 /* LoginPage */
-/* Container */
-/* Auth Container */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100vh;
+}
+
+.toggle-auth{
+  font-size: 1.3rem;
+  padding: 5px;
 }
 
 .auth-box {

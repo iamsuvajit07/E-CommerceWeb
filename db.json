@@ -248,24 +248,14 @@
       "password": "1234"
     },
     {
-      "id": "dfde",
+      "id": "2",
       "email": "abc@gmail.com",
       "password": "123"
     },
     {
-      "id": "abaa",
-      "email": "aaa@gmail.com",
-      "password": "111"
-    },
-    {
-      "id": "9d4f",
-      "email": "suva@gmail.com",
-      "password": "0000"
-    },
-    {
-      "id": "bc40",
-      "email": "anu@mail.com",
-      "password": "123456"
+      "id": "82f5",
+      "email": "a@gmail.com",
+      "password": "1"
     }
   ]
 }
