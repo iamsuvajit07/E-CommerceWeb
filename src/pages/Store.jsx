@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; // Import star icons
 import Preloader from "../components/Preloader";
 
-export default function Store({ setCart, cart }) {
+export default function Store({ setCart, cart, userId }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expanded, setExpanded] = useState({});
@@ -22,6 +22,17 @@ export default function Store({ setCart, cart }) {
             setLoading(false);
         }
     };
+
+    // ✅ Function to update cart in JSON server
+const updateUserCart = async (userId, updatedCart) => {
+    try {
+        await axios.patch(`http://localhost:5000/users/${userId}`, {
+            cart: updatedCart
+        });
+    } catch (error) {
+        console.error("Error updating user cart:", error);
+    }
+};
 
     useEffect(() => {
         fetchProducts();
@@ -43,21 +54,24 @@ export default function Store({ setCart, cart }) {
             return 0;
         });
 
-    // ✅ Add to cart function
-    const addToCart = (product) => {
-        const existingItem = cart.find((item) => item.id === product.id);
-        if (existingItem) {
-            setCart(
-                cart.map((item) =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                )
-            );
-        } else {
-            setCart([...cart, { ...product, quantity: 1 }]);
-        }
-    };
+// ✅ Modified Add to Cart function
+const addToCart = (product) => {
+    const existingItem = cart.find((item) => item.id === product.id);
+    let updatedCart;
+
+    if (existingItem) {
+        updatedCart = cart.map((item) =>
+            item.id === product.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+        );
+    } else {
+        updatedCart = [...cart, { ...product, quantity: 1 }];
+    }
+
+    setCart(updatedCart);
+    updateUserCart(userId, updatedCart); // Update cart in JSON server
+};
 
     // ✅ Toggle Read More / Read Less
     const toggleReadMore = (id) => {

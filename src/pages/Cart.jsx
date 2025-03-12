@@ -1,22 +1,37 @@
+import axios from "axios";
 import React from "react";
 
-export default function Cart({ cart, setCart }) {
-  // ✅ Update Quantity Function
-  const updateQuantity = (id, amount) => {
-    setCart(
-      cart
+export default function Cart({ cart, setCart, userId }) {
+
+  // ✅ Function to update cart in JSON server
+const updateUserCart = async (userId, updatedCart) => {
+  try {
+      await axios.patch(`http://localhost:5000/users/${userId}`, {
+          cart: updatedCart
+      });
+  } catch (error) {
+      console.error("Error updating user cart:", error);
+  }
+};
+
+// ✅ Modified updateQuantity function
+const updateQuantity = (id, amount) => {
+    const updatedCart = cart
         .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + amount } : item
+            item.id === id ? { ...item, quantity: item.quantity + amount } : item
         )
-        .filter((item) => item.quantity > 0) // Remove item if quantity is 0
-    );
-  };
+        .filter((item) => item.quantity > 0); // Remove item if quantity is 0
 
-  // ✅ Remove Item Function
-  const removeItem = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
+    setCart(updatedCart);
+    updateUserCart(userId, updatedCart);
+};
 
+// ✅ Modified removeItem function
+const removeItem = (id) => {
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart(updatedCart);
+    updateUserCart(userId, updatedCart);
+};
   // ✅ Calculate Total Price
   const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
