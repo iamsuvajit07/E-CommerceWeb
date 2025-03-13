@@ -51,23 +51,28 @@ export default function Auth({ setIsAuthenticated, setUserId, setCart }) {
         setIsAuthenticated(true);
         setUserId(user.id);
 
-        // Fetch cart data
-        fetch(`http://localhost:5000/users/${user.id}`)
-          .then((res) => res.json())
-          .then((data) => setCart(data.cart || []))
-          .catch((err) => console.error("Error fetching cart:", err));
+        // Fetch cart product details
+      if (user.cart.length > 0) {
+        const productsResponse = await fetch("http://localhost:5000/products");
+        const products = await productsResponse.json();
+        const userCartItems = products.filter((product) => user.cart.includes(product.id));
 
-        navigate("/");
+        setCart(userCartItems);
       } else {
-        setError("Invalid email or password");
+        setCart([]);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setError("Something went wrong. Try again later.");
-    }
 
-    setFormData({ ...formData, password: "" });
-  };
+      navigate("/");
+    } else {
+      setError("Invalid email or password");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    setError("Something went wrong. Try again later.");
+  }
+
+  setFormData({ ...formData, password: "" });
+};
 
   const handleSignup = async (e) => {
     e.preventDefault();

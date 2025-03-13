@@ -54,24 +54,28 @@ const updateUserCart = async (userId, updatedCart) => {
             return 0;
         });
 
-// ✅ Modified Add to Cart function
-const addToCart = (product) => {
-    const existingItem = cart.find((item) => item.id === product.id);
-    let updatedCart;
-
-    if (existingItem) {
-        updatedCart = cart.map((item) =>
-            item.id === product.id
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-        );
-    } else {
-        updatedCart = [...cart, { ...product, quantity: 1 }];
-    }
-
-    setCart(updatedCart);
-    updateUserCart(userId, updatedCart); // Update cart in JSON server
-};
+        const handleAddToCart = async (productId) => {
+            try {
+                const existingItem = cart.find(item => item.id === productId);
+        
+                let updatedCart;
+                if (existingItem) {
+                    updatedCart = cart.map(item =>
+                        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+                    );
+                } else {
+                    updatedCart = [...cart, { id: productId, quantity: 1 }];
+                }
+        
+                setCart(updatedCart);
+                await updateUserCart(userId, updatedCart);
+            } catch (error) {
+                console.error("Error updating cart:", error);
+            }
+        };
+        
+        
+          
 
     // ✅ Toggle Read More / Read Less
     const toggleReadMore = (id) => {
@@ -152,8 +156,8 @@ const addToCart = (product) => {
                         </p>
 
                         <div className="button-div">
-                            <button className="add-to-cart" onClick={() => addToCart(product)}>Add to Cart</button>
-                            <button className="buy-now">Buy Now</button>
+                        <button className="add-to-cart" onClick={() => handleAddToCart(product.id)}>Add to Cart</button>
+                        <button className="buy-now">Buy Now</button>
                         </div>
                     </div>
                 ))}
