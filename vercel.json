@@ -2,13 +2,17 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "includeFiles": "db.json"
+      "runtime": "nodejs18.x"
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
