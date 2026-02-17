@@ -14,7 +14,7 @@ export default function Store({ setCart, cart, userId }) {
     // ✅ Fetch products from API
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/products");
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -26,7 +26,7 @@ export default function Store({ setCart, cart, userId }) {
     // ✅ Function to update cart in JSON server
 const updateUserCart = async (userId, updatedCart) => {
     try {
-        await axios.patch(`http://localhost:5000/users/${userId}`, {
+        await axios.patch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
             cart: updatedCart
         });
     } catch (error) {

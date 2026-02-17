@@ -6,7 +6,7 @@ export default function Cart({ cart, setCart, userId }) {
   // ✅ Function to update cart in JSON server
 const updateUserCart = async (userId, updatedCart) => {
   try {
-      await axios.patch(`http://localhost:5000/users/${userId}`, {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/users/${userId}`, {
           cart: updatedCart
       });
   } catch (error) {

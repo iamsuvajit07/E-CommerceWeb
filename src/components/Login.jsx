@@ -34,7 +34,7 @@ export default function Auth({ setIsAuthenticated, setUserId, setCart }) {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/users");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users`);
       const users = await response.json();
 
       const user = users.find(
@@ -52,7 +52,7 @@ export default function Auth({ setIsAuthenticated, setUserId, setCart }) {
         setUserId(user.id);
 
         // Fetch cart data
-        fetch(`http://localhost:5000/users/${user.id}`)
+        fetch(`${import.meta.env.VITE_API_URL}/users/${user.id}`)
           .then((res) => res.json())
           .then((data) => setCart(data.cart || []))
           .catch((err) => console.error("Error fetching cart:", err));
@@ -74,7 +74,7 @@ export default function Auth({ setIsAuthenticated, setUserId, setCart }) {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/users");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users`);
       const users = await response.json();
 
       const existingUser = users.find((user) => user.email === formData.email);
@@ -88,7 +88,7 @@ export default function Auth({ setIsAuthenticated, setUserId, setCart }) {
           cart: [],
         };
 
-        const res = await fetch("http://localhost:5000/users", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newUser),
