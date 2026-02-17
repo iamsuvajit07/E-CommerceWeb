@@ -1,46 +1,46 @@
-import { create, defaults, router, rewriter } from 'json-server';
+import * as jsonServerModule from 'json-server';
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const server = create();
-const middlewares = defaults();
-
-// Use an in-memory database by reading the file once
-// This prevents crashes from trying to write to Vercel's read-only filesystem
-const dbPath = path.join(__dirname, '../db.json');
-let db = { products: [], users: [] };
-
-try {
-  if (fs.existsSync(dbPath)) {
-    db = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
-  }
-} catch (err) {
-  console.error('Error reading db.json:', err);
-}
-
-const dbRouter = router(db);
+// Version 1.0.0-beta.3 might not have a default export in some environments
+const jsonServer = jsonServerModule.default || jsonServerModule;
+const server = jsonServer.create();
+const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
 
-// Add a test endpoint to verify the API is working
+// Add a simple health check endpoint at the root of the function
 server.get('/api/test', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    dbFound: fs.existsSync(dbPath),
-    dbPath: dbPath,
-    cwd: process.cwd()
-  });
+  res.json({ message: 'API is alive', time: new Date().toISOString() });
 });
 
-// Vercel's request will still have /api prefix, so we need to rewrite it for json-server
-server.use(rewriter({
-  '/api/*': '/$1'
-}));
+// Custom middleware to strip /api prefix from URLs
+server.use((req, res, next) => {
+  if (req.url.startsWith('/api')) {
+    req.url = req.url.replace('/api', '');
+  }
+  next();
+});
 
-server.use(dbRouter);
+// Load the database
+const dbPath = path.resolve(process.cwd(), 'db.json');
 
-export default server;
+try {
+  const dbContent = fs.readFileSync(dbPath, 'utf8');
+  const db = JSON.parse(dbContent);
+  const router = jsonServer.router(db);
+  server.use(router);
+} catch (error) {
+  server.use((req, res) => {
+    res.status(500).json({ 
+      error: 'Failed to initialize database', 
+      message: error.message,
+      path: dbPath
+    });
+  });
+}
+
+// Vercel expected export pattern
+export default (req, res) => {
+  return server(req, res);
+};
